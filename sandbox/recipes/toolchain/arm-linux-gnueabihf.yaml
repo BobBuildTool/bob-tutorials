@@ -1,0 +1,32 @@
+environment:
+    PKG_VERSION: "14.09"
+    PKG_NAME: "gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
+
+checkoutSCM:
+    scm: url
+    url: https://releases.linaro.org/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz
+    digestSHA1: "b6d5f985ac254b1d60d8f01459f64d248adb7838"
+    extract: False
+
+buildVars: [PKG_NAME]
+buildScript: |
+    cp $1/${PKG_NAME}.tar.xz .
+
+packageScript: |
+    tar xf $1/${PKG_NAME}.tar.xz
+
+provideVars:
+    ARCH: "arm"
+    CROSS_COMPILE: "arm-linux-gnueabihf-"
+    SYSROOT: "../arm-linux-gnueabihf/libc"
+
+    AS: "arm-linux-gnueabihf-as"
+    CC: "arm-linux-gnueabihf-gcc"
+    CPP: "arm-linux-gnueabihf-cpp"
+    CXX: "arm-linux-gnueabihf-g++"
+    LD: "arm-linux-gnueabihf-ld"
+
+provideTools:
+    target-toolchain:
+        path: "${PKG_NAME}/bin"
+

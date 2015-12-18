@@ -1,0 +1,8 @@
+build:
+    globalPaths: ["/bin", "/usr/bin"]
+    sandbox:
+        url: https://BobBuildTool.github.io/bob-tutorials/rootfs.tar.xz
+        digestSHA1: "a35993530e0bb0f6e50b757b15824ffaee2280ee"
+        mount:
+            "/etc/resolv.conf" : "/etc/resolv.conf"
+

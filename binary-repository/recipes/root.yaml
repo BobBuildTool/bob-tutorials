@@ -1,0 +1,14 @@
+root: true
+
+depends:
+    - lib
+
+checkoutDeterministic: True
+checkoutScript: |
+    cp $<<src/main.c>> main.c
+
+buildScript: |
+    gcc -o main $1/main.c $2/lib.o
+
+packageScript: |
+    cp -a $1/main .

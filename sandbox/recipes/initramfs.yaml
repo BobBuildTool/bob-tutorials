@@ -1,0 +1,23 @@
+depends:
+    - busybox
+
+buildTools: [target-toolchain]
+buildVars: [SYSROOT]
+buildScript: |
+    cp -a ${BOB_TOOL_PATHS[target-toolchain]}/${SYSROOT}/lib .
+    cp -a $2/* .
+
+    ln -sf bin/busybox init
+    mkdir -p dev etc/init.d proc sys
+
+    echo -n $<'initramfs/inittab'> >etc/inittab
+    cp $<<initramfs/rcS>> etc/init.d/rcS
+    chmod 0755 etc/init.d/rcS
+
+packageScript: |
+    mkdir -p boot
+    (
+        cd $1
+        find . | cpio --create --format=newc --owner=root:root | gzip
+    ) > boot/initramfs.cpio.gz
+
