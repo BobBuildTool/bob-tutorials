@@ -6,6 +6,10 @@ environment:
 
 depends:
     -
+        name: sandbox::debian-8.2-x86
+        use: [sandbox]
+        forward: True
+    -
         name: toolchain::x86
         use: [tools, environment]
         forward: True

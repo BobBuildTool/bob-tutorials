@@ -1,0 +1,17 @@
+checkoutSCM:
+    scm: url
+    url: https://BobBuildTool.github.io/bob-tutorials/rootfs.tar.xz
+    digestSHA1: "a35993530e0bb0f6e50b757b15824ffaee2280ee"
+    extract: False
+
+buildScript: |
+    cp $1/rootfs.tar.xz .
+
+packageScript: |
+    tar -xf $1/rootfs.tar.xz
+
+provideSandbox:
+    paths: ["/bin", "/usr/bin"]
+    mount:
+        - "/etc/resolv.conf"
+
