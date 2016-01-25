@@ -1,19 +1,14 @@
+inherit: [fetch]
+shared: True
+
 environment:
     PKG_VERSION: "14.09"
     PKG_NAME: "gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
+    PKG_DIGEST: "b6d5f985ac254b1d60d8f01459f64d248adb7838"
 
-checkoutSCM:
-    scm: url
-    url: https://releases.linaro.org/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz
-    digestSHA1: "b6d5f985ac254b1d60d8f01459f64d248adb7838"
-    extract: False
-
-buildVars: [PKG_NAME]
-buildScript: |
-    cp $1/${PKG_NAME}.tar.xz .
-
+packageVars: [PKG_DIGEST, PKG_NAME, PKG_VERSION]
 packageScript: |
-    tar xf $1/${PKG_NAME}.tar.xz
+    fetchArchive "https://releases.linaro.org/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz" "$PKG_DIGEST"
 
 provideVars:
     ARCH: "arm"

@@ -1,17 +1,13 @@
-checkoutSCM:
-    scm: url
-    url: https://BobBuildTool.github.io/bob-tutorials/gcc.tar.xz
-    digestSHA1: "14a4ee0b9d236e0bbee454f43a0c9fe5b3daf9c1"
-    extract: False
-
-buildScript: |
-    cp $1/gcc.tar.xz .
+inherit: [fetch]
+shared: True
 
 packageScript: |
     # use host gcc if available
     if [ -z "$(type -p gcc)" ] ; then
         mkdir sysroot bin
-        tar -C sysroot -xf $1/gcc.tar.xz
+        pushd sysroot
+        fetchArchive https://BobBuildTool.github.io/bob-tutorials/gcc.tar.xz "14a4ee0b9d236e0bbee454f43a0c9fe5b3daf9c1"
+        popd
 
         for i in gcc g++ cpp ld ; do
             cat >bin/$i <<EOF

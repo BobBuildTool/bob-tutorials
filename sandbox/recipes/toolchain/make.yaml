@@ -1,16 +1,10 @@
-checkoutSCM:
-    scm: url
-    url: https://BobBuildTool.github.io/bob-tutorials/make.tar.xz
-    digestSHA1: "e2e749037935512208b0ba79e439561871a5ad42"
-    extract: False
-
-buildScript: |
-    cp $1/make.tar.xz .
+inherit: [fetch]
+shared: True
 
 packageScript: |
     # use host gcc if available
     if [ -z "$(type -p make)" ] ; then
-        tar xf $1/make.tar.xz
+        fetchArchive https://BobBuildTool.github.io/bob-tutorials/make.tar.xz "e2e749037935512208b0ba79e439561871a5ad42"
     fi
 
 provideTools:
