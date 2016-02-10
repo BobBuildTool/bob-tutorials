@@ -5,11 +5,13 @@ checkoutScript: |
 multiPackage:
     debug:
         buildScript: |
+            echo "building from: $1"
             gcc -c -O0 -g -o lib.o $1/lib.c
         packageScript: |
             cp -a $1/lib.o .
     release:
         buildScript: |
+            echo "building from: $1"
             gcc  -O3 -c -o lib.o $1/lib.c
         packageScript: |
             cp -a $1/lib.o .
