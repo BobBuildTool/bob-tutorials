@@ -1,7 +1,8 @@
 root: true
 
 depends:
-    - lib
+    # - lib-release
+    - lib-debug
 
 checkoutDeterministic: True
 checkoutScript: |
