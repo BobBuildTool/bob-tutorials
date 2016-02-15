@@ -53,7 +53,8 @@ packageScript: |
             (
                 T=$(mktemp)
                 trap 'rm -f $T' EXIT
-                curl -sSg -o $T "$URL"
+                set -e
+                curl -sSgL -o $T "$URL"
                 echo "$DIGEST" "$T" | sha1sum -c
 
                 case $TYPE in
@@ -73,7 +74,8 @@ packageScript: |
             (
                 T=$(mktemp)
                 trap 'rm -f $T' EXIT
-                curl -sSg -o $T "$URL"
+                set -e
+                curl -sSgL -o $T "$URL"
                 echo "$DIGEST" "$T" | sha1sum -c
                 mv $T "$FN"
             )
