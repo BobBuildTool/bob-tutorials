@@ -2,13 +2,13 @@ inherit: [fetch]
 shared: True
 
 environment:
-    PKG_VERSION: "14.09"
-    PKG_NAME: "gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
-    PKG_DIGEST: "b6d5f985ac254b1d60d8f01459f64d248adb7838"
+    PKG_VERSION: "5.3-2016.05"
+    PKG_NAME: "gcc-linaro-5.3.1-2016.05-x86_64_arm-linux-gnueabihf"
+    PKG_DIGEST: "a00eb56f08190d598822979d470395cf67255f5a"
 
 packageVars: [PKG_DIGEST, PKG_NAME, PKG_VERSION]
 packageScript: |
-    fetchArchive "https://releases.linaro.org/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz" "$PKG_DIGEST"
+    fetchArchive "https://releases.linaro.org/components/toolchain/binaries/${PKG_VERSION}/arm-linux-gnueabihf/${PKG_NAME}.tar.xz" "$PKG_DIGEST"
 
 provideVars:
     ARCH: "arm"
