@@ -1,0 +1,12 @@
+root: true
+
+depends:
+    - root2
+    - root
+
+buildScript:
+    echo "hallo"
+
+packageScript:
+    echo "hallo"
+
