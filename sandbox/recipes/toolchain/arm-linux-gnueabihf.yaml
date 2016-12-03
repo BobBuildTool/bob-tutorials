@@ -8,7 +8,7 @@ environment:
 
 packageVars: [PKG_DIGEST, PKG_NAME, PKG_VERSION]
 packageScript: |
-    fetchArchive "https://releases.linaro.org/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz" "$PKG_DIGEST"
+    fetchArchive "https://releases.linaro.org/archive/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz" "$PKG_DIGEST"
 
 provideVars:
     ARCH: "arm"
