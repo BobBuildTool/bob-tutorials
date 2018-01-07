@@ -1,27 +1,45 @@
-inherit: [fetch]
 shared: True
 
-environment:
-    PKG_VERSION: "14.09"
-    PKG_NAME: "gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
-    PKG_DIGEST: "b6d5f985ac254b1d60d8f01459f64d248adb7838"
+metaEnvironment:
+    PKG_VERSION: "6.4.1-2017.11"
+    PKG_DIGEST: "ae46e962098a6bf3121fa50795033b074d5d260c"
 
-packageVars: [PKG_DIGEST, PKG_NAME, PKG_VERSION]
-packageScript: |
-    fetchArchive "https://releases.linaro.org/archive/${PKG_VERSION}/components/toolchain/binaries/${PKG_NAME}.tar.xz" "$PKG_DIGEST"
+checkoutSCM:
+    scm: url
+    url: "https://releases.linaro.org/components/toolchain/binaries/6.4-2017.11/arm-linux-gnueabihf/gcc-linaro-${PKG_VERSION}-i686_arm-linux-gnueabihf.tar.xz"
+    digestSHA1: "${PKG_DIGEST}"
+    extract: False
 
-provideVars:
-    ARCH: "arm"
-    CROSS_COMPILE: "arm-linux-gnueabihf-"
-    SYSROOT: "../arm-linux-gnueabihf/libc"
+buildScript: |
+    ln -s $1/*.tar.xz
 
-    AS: "arm-linux-gnueabihf-as"
-    CC: "arm-linux-gnueabihf-gcc"
-    CPP: "arm-linux-gnueabihf-cpp"
-    CXX: "arm-linux-gnueabihf-g++"
-    LD: "arm-linux-gnueabihf-ld"
+multiPackage:
+    toolchain:
+        packageScript: |
+            tar xf $1/*.tar.xz --strip-components=1
 
-provideTools:
-    target-toolchain:
-        path: "${PKG_NAME}/bin"
+        provideVars:
+            ARCH: "arm"
+            CROSS_COMPILE: "arm-linux-gnueabihf-"
 
+            AS: "arm-linux-gnueabihf-as"
+            CC: "arm-linux-gnueabihf-gcc"
+            CPP: "arm-linux-gnueabihf-cpp"
+            CXX: "arm-linux-gnueabihf-g++"
+            LD: "arm-linux-gnueabihf-ld"
+            STRIP: "arm-linux-gnueabihf-strip"
+
+        provideTools:
+            target-toolchain:
+                path: "bin"
+
+    rootfs:
+        # Minimal rootfs that is just enough to boot plain c programs
+        packageTools: [target-toolchain]
+        packageVars: [STRIP]
+        packageScript: |
+            tar xf $1/*.tar.xz --strip-components=3  --wildcards \
+                '*/arm-linux-gnueabihf/libc/lib/ld-*' \
+                '*/arm-linux-gnueabihf/libc/lib/libc*' \
+                '*/arm-linux-gnueabihf/libc/lib/libm*'
+            $STRIP --strip-debug lib/*.so

@@ -1,13 +1,14 @@
 inherit: [make]
 
-environment:
-    PKG_VERSION: "1.24.1"
+metaEnvironment:
+    PKG_VERSION: "1.28.0"
+    PKG_DIGEST: "a25e9a33e830e307c2a446ca234531049dd427f2"
 
-checkoutVars: [PKG_VERSION]
 checkoutSCM:
     scm: url
     url: https://busybox.net/downloads/busybox-${PKG_VERSION}.tar.bz2
-    digestSHA1: "157d14d24748b4505b1a418535688706a2b81680"
+    digestSHA1: "${PKG_DIGEST}"
+    stripComponents: 1
 
 buildTools: [host-toolchain, target-toolchain]
 buildVars: [ARCH, CROSS_COMPILE]
@@ -17,7 +18,7 @@ buildScript: |
 
     mkdir -p build install
     cd build
-    make -C $1/busybox-${PKG_VERSION} O=$PWD defconfig
+    make -C $1 O=$PWD defconfig
     makeParallel
     make CONFIG_PREFIX=${BOB_CWD}/install install
 

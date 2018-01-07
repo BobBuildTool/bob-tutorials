@@ -14,7 +14,7 @@ depends:
         use: [tools, environment]
         forward: True
     -
-        name: toolchain::arm-linux-gnueabihf
+        name: toolchain::arm-linux-gnueabihf-toolchain
         use: [tools, environment]
         forward: True
 

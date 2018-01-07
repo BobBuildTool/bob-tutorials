@@ -1,13 +1,14 @@
 inherit: [make]
 
-environment:
-    PKG_VERSION: "4.3.3"
+metaEnvironment:
+    PKG_VERSION: "4.14.12"
+    PKG_DIGEST: "4800ece19bf51987e997f719b2a048177147f847"
 
-checkoutVars: [PKG_VERSION]
 checkoutSCM:
     scm: url
     url: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-${PKG_VERSION}.tar.xz
-    digestSHA1: "ac25bed0b9f084c7234fd2add361ee20d14f8310"
+    digestSHA1: "${PKG_DIGEST}"
+    stripComponents: 1
 
 buildTools: [host-toolchain, target-toolchain]
 buildVars: [ARCH, CROSS_COMPILE, LINUX_CONFIG]
@@ -16,10 +17,10 @@ buildScript: |
     export KCONFIG_NOTIMESTAMP=1
     export KBUILD_BUILD_TIMESTAMP='Mon Dec 28 22:49:40 CET 2015'
 
-    if [[ ( ! -e ".config" ) || ( "$1/linux-${PKG_VERSION}/arch/${ARCH}/configs/${LINUX_CONFIG}_defconfig" -nt ".config" ) ]] ; then
-        make -C "$1/linux-${PKG_VERSION}" O=$PWD "${LINUX_CONFIG}_defconfig"
+    if [[ ( ! -e ".config" ) || ( "$1/arch/${ARCH}/configs/${LINUX_CONFIG}_defconfig" -nt ".config" ) ]] ; then
+        make -C "$1" O=$PWD "${LINUX_CONFIG}_defconfig"
     else
-        make -C "$1/linux-${PKG_VERSION}" O=$PWD oldconfig
+        make -C "$1" O=$PWD oldconfig
     fi
 
 multiPackage:
