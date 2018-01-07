@@ -1,0 +1,36 @@
+# Simple debian stretch i386 system image.
+#
+# Build with:
+#   # mkdir sandbox
+#   # debootstrap --arch=i386 --include=bc,binutils,bzip2,ca-certificates,cpio,curl,file,gawk,gcc,git,libc6-dev,make,rsync,xz-utils,patch,unzip \
+#       --verbose stretch ./sandbox http://ftp.de.debian.org/debian/
+#   # tar --preserve-permissions \
+#       --exclude=./boot \
+#       --exclude=./dev \
+#       --exclude=./home \
+#       --exclude=./media \
+#       --exclude=./opt \
+#       --exclude=./srv \
+#       --exclude=./tmp \
+#       --exclude=./usr/share/doc \
+#       --exclude=./usr/share/man \
+#       --exclude=./var \
+#       -Jcf debian-stretch.tar.xz -C ./sandbox/ .
+
+checkoutSCM:
+    scm: url
+    url: https://bobbuildtool.blob.core.windows.net/tutorial/assets/debian-stretch-2018-01-07.tar.xz
+    digestSHA1: "00bad2d460864763a142f73ae90e7384c17b61e9"
+    extract: False
+
+buildScript: |
+    ln -s $1/*.tar.xz
+
+packageScript: |
+    tar -xf $1/*.tar.xz
+
+provideSandbox:
+    paths: ["/bin", "/usr/bin"]
+    mount:
+        - "/etc/resolv.conf"
+
