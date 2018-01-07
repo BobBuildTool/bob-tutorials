@@ -1,5 +1,4 @@
 buildVarsWeak: [MAKE_JOBS]
-buildTools: [make]
 buildScript: |
     makeParallel()
     {

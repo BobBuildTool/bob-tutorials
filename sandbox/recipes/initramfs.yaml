@@ -20,6 +20,6 @@ packageScript: |
     mkdir -p boot
     (
         cd $1
-        find . | cpio --create --format=newc --owner=root:root | gzip
+        find . | sort | cpio --create --reproducible --format=newc --owner=root:root | gzip
     ) > boot/initramfs.cpio.gz
 
