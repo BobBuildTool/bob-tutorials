@@ -1,0 +1,9 @@
+scmOverrides:
+    -
+        match:
+            scm: url
+            url: "*/busybox-*"
+        del: [digestSHA1]
+        set:
+            scm: git
+            url: git://git.busybox.net/busybox
