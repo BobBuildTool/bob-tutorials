@@ -17,6 +17,8 @@
 #       --exclude=./var \
 #       -Jcf debian-stretch.tar.xz -C ./sandbox/ .
 
+shared: True
+
 checkoutSCM:
     scm: url
     url: https://bobbuildtool.blob.core.windows.net/tutorial/assets/debian-stretch-2018-01-07.tar.xz
