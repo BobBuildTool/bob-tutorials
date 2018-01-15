@@ -2,3 +2,6 @@ archive:
     backend: http
     url: https://bobbuildtool.blob.core.windows.net/tutorial
     flags: [download]
+
+include:
+    - user
