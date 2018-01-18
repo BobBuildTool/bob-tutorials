@@ -27,7 +27,14 @@ buildScript: |
     D=${0%/*}
     qemu-system-arm -M vexpress-a9 -kernel $D/boot/zImage -initrd $D/boot/initramfs.cpio.gz -append "console=tty1" -dtb $D/boot/vexpress-v2p-ca9.dtb
     EOF
-    chmod +x run.sh
+
+    cat >run-console.sh <<'EOF'
+    #!/bin/sh
+    D=${0%/*}
+    qemu-system-arm -M vexpress-a9 -kernel $D/boot/zImage -initrd $D/boot/initramfs.cpio.gz -append "console=tty1" -dtb $D/boot/vexpress-v2p-ca9.dtb -append "console=ttyAMA0" -nographic
+    EOF
+
+    chmod +x run.sh run-console.sh
 
 packageScript: |
     cp -au $1/* .
