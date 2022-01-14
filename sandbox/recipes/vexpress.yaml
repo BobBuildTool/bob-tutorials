@@ -6,7 +6,7 @@ environment:
 
 depends:
     -
-        name: sandbox::debian-i386
+        name: sandbox::debian-x86_64
         use: [sandbox]
         forward: True
     -

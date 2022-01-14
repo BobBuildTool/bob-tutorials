@@ -1,9 +1,9 @@
-# Simple debian stretch i386 system image.
+# Simple Debian bullseye x86_64 system image.
 #
 # Build with:
 #   # mkdir sandbox
-#   # debootstrap --arch=i386 --include=bc,binutils,bzip2,ca-certificates,cpio,curl,file,gawk,gcc,git,libc6-dev,make,rsync,xz-utils,patch,unzip \
-#       --verbose stretch ./sandbox http://ftp.de.debian.org/debian/
+#   # debootstrap --arch=i386 --include=bc,binutils,bison,bzip2,ca-certificates,cpio,curl,file,flex,gawk,gcc,git,libc6-dev,make,rsync,xz-utils,patch,unzip \
+#       --verbose bullseye ./sandbox http://ftp.de.debian.org/debian/
 #   # tar --preserve-permissions \
 #       --exclude=./boot \
 #       --exclude=./dev \
@@ -14,15 +14,16 @@
 #       --exclude=./tmp \
 #       --exclude=./usr/share/doc \
 #       --exclude=./usr/share/man \
+#       --exclude=./usr/share/locale \
 #       --exclude=./var \
-#       -Jcf debian-stretch.tar.xz -C ./sandbox/ .
+#       -Jcf debian-bullseye.tar.xz -C ./sandbox/ .
 
 shared: True
 
 checkoutSCM:
     scm: url
-    url: https://bobbuildtool.blob.core.windows.net/tutorial/assets/debian-stretch-2018-01-07.tar.xz
-    digestSHA1: "00bad2d460864763a142f73ae90e7384c17b61e9"
+    url: http://blobs.bobbuildtool.dev/debian-bullseye-2022-01-14.tar.xz
+    digestSHA1: "931660758a6ae9361f37afa8b7032ebac6b54b96"
     extract: False
 
 buildScript: |
@@ -32,7 +33,6 @@ packageScript: |
     tar -xf $1/*.tar.xz
 
 provideSandbox:
-    paths: ["/bin", "/usr/bin"]
+    paths: ["/usr/bin"]
     mount:
         - "/etc/resolv.conf"
-

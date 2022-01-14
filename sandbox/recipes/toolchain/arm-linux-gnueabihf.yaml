@@ -1,12 +1,12 @@
 shared: True
 
 metaEnvironment:
-    PKG_VERSION: "6.4.1-2017.11"
-    PKG_DIGEST: "ae46e962098a6bf3121fa50795033b074d5d260c"
+    PKG_VERSION: "10.3-2021.07"
+    PKG_DIGEST: "1ae2179fd845971bad5f75920d25bdab9a56f2c8"
 
 checkoutSCM:
     scm: url
-    url: "https://releases.linaro.org/components/toolchain/binaries/6.4-2017.11/arm-linux-gnueabihf/gcc-linaro-${PKG_VERSION}-i686_arm-linux-gnueabihf.tar.xz"
+    url: https://developer.arm.com/-/media/Files/downloads/gnu-a/${PKG_VERSION}/binrel/gcc-arm-${PKG_VERSION}-x86_64-arm-none-linux-gnueabihf.tar.xz
     digestSHA1: "${PKG_DIGEST}"
     extract: False
 
@@ -20,14 +20,14 @@ multiPackage:
 
         provideVars:
             ARCH: "arm"
-            CROSS_COMPILE: "arm-linux-gnueabihf-"
+            CROSS_COMPILE: "arm-none-linux-gnueabihf-"
 
-            AS: "arm-linux-gnueabihf-as"
-            CC: "arm-linux-gnueabihf-gcc"
-            CPP: "arm-linux-gnueabihf-cpp"
-            CXX: "arm-linux-gnueabihf-g++"
-            LD: "arm-linux-gnueabihf-ld"
-            STRIP: "arm-linux-gnueabihf-strip"
+            AS: "arm-none-linux-gnueabihf-as"
+            CC: "arm-none-linux-gnueabihf-gcc"
+            CPP: "arm-none-linux-gnueabihf-cpp"
+            CXX: "arm-none-linux-gnueabihf-g++"
+            LD: "arm-none-linux-gnueabihf-ld"
+            STRIP: "arm-none-linux-gnueabihf-strip"
 
         provideTools:
             target-toolchain:
@@ -39,7 +39,8 @@ multiPackage:
         packageVars: [STRIP]
         packageScript: |
             tar xf $1/*.tar.xz --strip-components=3  --wildcards \
-                '*/arm-linux-gnueabihf/libc/lib/ld-*' \
-                '*/arm-linux-gnueabihf/libc/lib/libc*' \
-                '*/arm-linux-gnueabihf/libc/lib/libm*'
+                '*/arm-none-linux-gnueabihf/libc/lib/ld-*' \
+                '*/arm-none-linux-gnueabihf/libc/lib/libc*' \
+                '*/arm-none-linux-gnueabihf/libc/lib/libm*' \
+                '*/arm-none-linux-gnueabihf/libc/lib/libresolv*'
             $STRIP --strip-debug lib/*.so

@@ -1,16 +1,16 @@
 inherit: [make]
 
 metaEnvironment:
-    PKG_VERSION: "4.14.12"
-    PKG_DIGEST: "4800ece19bf51987e997f719b2a048177147f847"
+    PKG_VERSION: "5.16"
+    PKG_DIGEST: "fd1d61124af4f76980eeef7257f625c0366eb70a"
 
 checkoutSCM:
     scm: url
-    url: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-${PKG_VERSION}.tar.xz
+    url: https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${PKG_VERSION}.tar.xz
     digestSHA1: "${PKG_DIGEST}"
     stripComponents: 1
 
-buildTools: [host-toolchain, target-toolchain]
+buildTools: [target-toolchain]
 buildVars: [ARCH, CROSS_COMPILE, LINUX_CONFIG]
 buildScript: |
     # prevent timestamps in configuration
@@ -22,6 +22,10 @@ buildScript: |
     else
         make -C "$1" O=$PWD oldconfig
     fi
+
+    # Building the gcc plugins fails with the arm cross toolchain because of
+    # missing header files.
+    $1/scripts/config --disable GCC_PLUGINS
 
 multiPackage:
     image:
