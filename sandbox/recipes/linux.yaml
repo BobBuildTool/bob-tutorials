@@ -18,9 +18,9 @@ buildScript: |
     export KBUILD_BUILD_TIMESTAMP='Mon Dec 28 22:49:40 CET 2015'
 
     if [[ ( ! -e ".config" ) || ( "$1/arch/${ARCH}/configs/${LINUX_CONFIG}_defconfig" -nt ".config" ) ]] ; then
-        make -C "$1" O=$PWD "${LINUX_CONFIG}_defconfig"
+        makeSequential -C "$1" O=$PWD "${LINUX_CONFIG}_defconfig"
     else
-        make -C "$1" O=$PWD oldconfig
+        makeSequential -C "$1" O=$PWD oldconfig
     fi
 
     # Building the gcc plugins fails with the arm cross toolchain because of
@@ -32,7 +32,7 @@ multiPackage:
         buildVars: [LINUX_DTB]
         buildScript: |
             makeParallel bzImage
-            make ${LINUX_DTB}.dtb
+            makeParallel ${LINUX_DTB}.dtb
         packageScript: |
             mkdir -p boot
             cp -au $1/arch/$ARCH/boot/zImage boot/

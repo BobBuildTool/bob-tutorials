@@ -18,9 +18,9 @@ buildScript: |
 
     mkdir -p build install
     cd build
-    make -C $1 O=$PWD defconfig
+    makeSequential -C $1 O=$PWD defconfig
     makeParallel
-    make CONFIG_PREFIX=${BOB_CWD}/install install
+    makeParallel CONFIG_PREFIX=${BOB_CWD}/install install
 
 packageScript: |
     cp -a $1/install/* .
